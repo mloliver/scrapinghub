@@ -13,7 +13,7 @@ module Scrapinghub
 
     attr_reader :api_key
 
-    def initialize(api_key, url='http://panel.scrapinghub.com/api/')
+    def initialize(api_key, url='http://dash.scrapinghub.com/api/')
       @api_key = api_key
       @base_url = url
     end
