@@ -13,7 +13,7 @@ module Scrapinghub
 
     attr_reader :api_key
 
-    def initialize(api_key, url='http://dash.scrapinghub.com/api/')
+    def initialize(api_key, url='https://dash.scrapinghub.com/api/')
       @api_key = api_key
       @base_url = url
     end
@@ -33,11 +33,14 @@ module Scrapinghub
         raise "Request redirected too many times."
       end
 
-      Net::HTTP.start(uri.host, uri.port) do |http|
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+
+      http.start do |h|
         request = Net::HTTP::Get.new(uri.request_uri)
         request.basic_auth @api_key, ''
-
-        response = http.request(request)
+        
+        response = h.request(request)
 
         case response
         when Net::HTTPFound
